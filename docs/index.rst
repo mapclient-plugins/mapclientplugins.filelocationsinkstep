@@ -9,7 +9,7 @@ The **File Location Sink** is MAP Client plugin for saving a file to a location 
 Specification
 -------------
 
-Information on this plugins' specificaiton is available :ref:`here <mcp-file-location-sink-specification>`.
+Information on this plugins' specification is available :ref:`here <mcp-file-location-sink-specification>`.
 
 Configuration
 -------------
