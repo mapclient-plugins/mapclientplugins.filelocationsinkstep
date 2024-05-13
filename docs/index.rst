@@ -1,5 +1,5 @@
-MAP Client Plugin - File Location Sink
-======================================
+File Location Sink
+==================
 
 The **File Location Sink** is MAP Client plugin for saving a file to a location outside the workflow.
 
