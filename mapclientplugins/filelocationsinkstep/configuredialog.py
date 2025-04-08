@@ -1,6 +1,6 @@
-
 import os
 import webbrowser
+from pathlib import PurePath, PureWindowsPath
 
 from PySide6 import QtCore, QtWidgets
 from mapclientplugins.filelocationsinkstep.ui_configuredialog import Ui_ConfigureDialog
@@ -31,31 +31,34 @@ class ConfigureDialog(QtWidgets.QDialog):
         self._workflow_location = None
         self._previousLocation = ''
 
-        self.setWhatsThis('<html>Please read the documentation available \n<a href="https://abi-mapping-tools.readthedocs.io/en/latest/mapclientplugins.filelocationsinkstep/docs/index.html">here</a> for further details.</html>')
+        self.setWhatsThis(
+            '<html>Please read the documentation available \n<a href="https://abi-mapping-tools.readthedocs.io/en/latest/mapclientplugins.filelocationsinkstep/docs/index.html'
+            '">here</a> for further details.</html>')
 
-        self._makeConnections()
+        self._make_connections()
 
     def event(self, e):
         if e.type() == QtCore.QEvent.Type.WhatsThisClicked:
             webbrowser.open(e.href())
         return super().event(e)
 
-    def _makeConnections(self):
+    def _make_connections(self):
         self._ui.lineEdit0.textChanged.connect(self.validate)
-        self._ui.pushButtonFileChooser.clicked.connect(self._fileChooserClicked)
+        self._ui.pushButtonFileChooser.clicked.connect(self._file_chooser_clicked)
 
     def accept(self):
         """
         Override the accept method so that we can confirm saving an
         invalid configuration.
         """
-        result = QtWidgets.QMessageBox.Yes
+        result = QtWidgets.QMessageBox.StandardButton.Yes
         if not self.validate():
-            result = QtWidgets.QMessageBox.warning(self, 'Invalid Configuration',
+            result = QtWidgets.QMessageBox.warning(
+                self, 'Invalid Configuration',
                 'This configuration is invalid.  Unpredictable behaviour may result if you choose \'Yes\', are you sure you want to save this configuration?)',
-                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No, QtWidgets.QMessageBox.StandardButton.No)
 
-        if result == QtWidgets.QMessageBox.Yes:
+        if result == QtWidgets.QMessageBox.StandardButton.Yes:
             QtWidgets.QDialog.accept(self)
 
     def _output_location(self, location=None):
@@ -102,7 +105,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         identifier over the whole of the workflow.
         """
         self._previousIdentifier = self._ui.lineEdit0.text()
-        config = {'identifier': self._ui.lineEdit0.text(), 'file': self._output_location()}
+        config = {'identifier': self._ui.lineEdit0.text(), 'file': PureWindowsPath(self._output_location()).as_posix()}
         if self._previousLocation:
             config['previous_location'] = os.path.relpath(self._previousLocation, self._workflow_location)
         else:
@@ -118,12 +121,10 @@ class ConfigureDialog(QtWidgets.QDialog):
         """
         self._previousIdentifier = config['identifier']
         self._ui.lineEdit0.setText(config['identifier'])
-        if 'file' in config:
-            self._ui.lineEditFileLocation.setText(config['file'])
-        if 'previous_location' in config:
-            self._previousLocation = os.path.join(self._workflow_location, config['previous_location'])
+        self._ui.lineEditFileLocation.setText(str(PurePath(config.get('file', ''))))
+        self._previousLocation = os.path.join(self._workflow_location, config.get('previous_location', ''))
 
-    def _fileChooserClicked(self):
+    def _file_chooser_clicked(self):
         # Second parameter returned is the filter chosen
         location = QtWidgets.QFileDialog.getExistingDirectory(self, 'Select Destination for File', self._previousLocation)
 
