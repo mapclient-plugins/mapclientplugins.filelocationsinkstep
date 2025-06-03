@@ -4,6 +4,7 @@ MAP Client Plugin Step
 """
 import os
 import json
+import pathlib
 import shutil
 
 from PySide6 import QtGui
@@ -25,9 +26,13 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         # Add any other initialisation code here:
         self._icon = QtGui.QImage(':/filelocationsinkstep/images/data-sink.png')
         # Ports:
-        self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
-                      'http://physiomeproject.org/workflow/1.0/rdf-schema#uses',
-                      'http://physiomeproject.org/workflow/1.0/rdf-schema#file_location'))
+        self.addPort([('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
+                       'http://physiomeproject.org/workflow/1.0/rdf-schema#uses',
+                       'http://physiomeproject.org/workflow/1.0/rdf-schema#file_location'),
+                      ('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
+                       'http://physiomeproject.org/workflow/1.0/rdf-schema#uses-list-of',
+                       'http://physiomeproject.org/workflow/1.0/rdf-schema#file_location')
+                      ])
         # Port data:
         self._portData0 = None # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
         # Config:
@@ -41,7 +46,8 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         """
         # Put your execute step code here before calling the '_doneExecution' method.
         abs_path = os.path.join(self._location, self._config['file'])
-        shutil.copy(self._portData0, abs_path)
+        for p in self._portData0:
+            shutil.copy(p, abs_path)
         self._doneExecution()
 
     def setPortData(self, index, dataIn):
@@ -53,7 +59,11 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         :param index: Index of the port to return.
         :param dataIn: The data to set for the port at the given index.
         """
-        self._portData0 = dataIn # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
+        if not isinstance(dataIn, list):
+            dataIn = [dataIn]
+
+        self._portData0 = [pathlib.PureWindowsPath(p).as_posix() for p in
+                           dataIn]  # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
 
     def configure(self):
         """
