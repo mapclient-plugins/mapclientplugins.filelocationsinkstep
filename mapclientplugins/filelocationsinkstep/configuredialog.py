@@ -24,7 +24,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         # and know how many occurrences of the current identifier there should
         # be.
         self._previousIdentifier = ''
-        # Set a place holder for a callable that will get set from the step.
+        # Set a placeholder for a callable that will get set from the step.
         # We will use this method to decide whether the identifier is unique.
         self.identifierOccursCount = None
 
@@ -105,7 +105,9 @@ class ConfigureDialog(QtWidgets.QDialog):
         identifier over the whole of the workflow.
         """
         self._previousIdentifier = self._ui.lineEdit0.text()
-        config = {'identifier': self._ui.lineEdit0.text(), 'file': PureWindowsPath(self._output_location()).as_posix()}
+        config = {'identifier': self._ui.lineEdit0.text(),
+                  'file': PureWindowsPath(self._output_location()).as_posix(),
+                  'prefix': self._ui.lineEditPrefix.text()}
         if self._previousLocation:
             config['previous_location'] = os.path.relpath(self._previousLocation, self._workflow_location)
         else:
@@ -121,6 +123,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         """
         self._previousIdentifier = config['identifier']
         self._ui.lineEdit0.setText(config['identifier'])
+        self._ui.lineEditPrefix.setText(config['prefix'])
         self._ui.lineEditFileLocation.setText(str(PurePath(config.get('file', ''))))
         self._previousLocation = os.path.join(self._workflow_location, config.get('previous_location', ''))
 
