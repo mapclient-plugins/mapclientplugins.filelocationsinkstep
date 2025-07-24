@@ -8,9 +8,14 @@ import pathlib
 import shutil
 
 from PySide6 import QtGui
+from packaging.version import Version
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
+from mapclient.settings.version import __version__ as mapclient_version
 from mapclientplugins.filelocationsinkstep.configuredialog import ConfigureDialog
+
+if Version("0.24.0") <= Version(mapclient_version):
+    from mapclient.core.utils import construct_configuration
 
 
 class FileLocationSinkStep(WorkflowStepMountPoint):
@@ -36,7 +41,11 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         # Port data:
         self._portData0 = None # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
         # Config:
-        self._config = {'identifier': ''}
+        self._config = {
+            'identifier': '',
+            'prefix': '',
+            'location': '',
+        }
 
     def execute(self):
         """
@@ -45,9 +54,13 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         """
         # Put your execute step code here before calling the '_doneExecution' method.
+        #
         abs_path = os.path.join(self._location, self._config['file'])
         for p in self._portData0:
-            shutil.copy(p, abs_path)
+            dest = shutil.copy(p, abs_path)
+            if self._config['prefix'].strip():
+                filename = self._config['prefix'].strip() + '_' + os.path.basename(dest)
+                shutil.move(dest, os.path.join(abs_path,filename))
         self._doneExecution()
 
     def setPortData(self, index, dataIn):
