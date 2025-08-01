@@ -62,8 +62,8 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         if not isinstance(dataIn, list):
             dataIn = [dataIn]
 
-        self._portData0 = [pathlib.PureWindowsPath(p).as_posix() for p in
-                           dataIn]  # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
+        # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
+        self._portData0 = dataIn
 
     def configure(self):
         """
