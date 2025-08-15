@@ -12,7 +12,6 @@ from PySide6 import QtGui
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.filelocationsinkstep.configuredialog import ConfigureDialog
 
-
 class FileLocationSinkStep(WorkflowStepMountPoint):
     """
     Skeleton step which is intended to be a helpful starting point
@@ -45,9 +44,13 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         """
         # Put your execute step code here before calling the '_doneExecution' method.
-        abs_path = os.path.join(self._location, self._config['file'])
+        #
+        abs_path = os.path.join(self._location, self._config['location'])
         for p in self._portData0:
-            shutil.copy(p, abs_path)
+            if self._config['prefix'].strip():
+                shutil.copy(p, os.path.join(abs_path, self._config['prefix'].strip() + '_' + os.path.basename(p)))
+            else:
+                shutil.copy(p, abs_path)
         self._doneExecution()
 
     def setPortData(self, index, dataIn):
