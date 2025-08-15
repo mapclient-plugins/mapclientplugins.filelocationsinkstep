@@ -106,7 +106,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         """
         self._previousIdentifier = self._ui.lineEdit0.text()
         config = {'identifier': self._ui.lineEdit0.text(),
-                  'file': PureWindowsPath(self._output_location()).as_posix(),
+                  'location': PureWindowsPath(self._output_location()).as_posix(),
                   'prefix': self._ui.lineEditPrefix.text()}
         if self._previousLocation:
             config['previous_location'] = os.path.relpath(self._previousLocation, self._workflow_location)
@@ -124,7 +124,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         self._previousIdentifier = config['identifier']
         self._ui.lineEdit0.setText(config['identifier'])
         self._ui.lineEditPrefix.setText(config['prefix'])
-        self._ui.lineEditFileLocation.setText(str(PurePath(config.get('file', ''))))
+        self._ui.lineEditFileLocation.setText(str(PurePath(config.get('location', ''))))
         self._previousLocation = os.path.join(self._workflow_location, config.get('previous_location', ''))
 
     def _file_chooser_clicked(self):

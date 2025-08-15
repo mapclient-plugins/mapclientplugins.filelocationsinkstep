@@ -24,22 +24,22 @@ class Ui_ConfigureDialog(object):
     def setupUi(self, ConfigureDialog):
         if not ConfigureDialog.objectName():
             ConfigureDialog.setObjectName(u"ConfigureDialog")
-        ConfigureDialog.resize(418, 303)
+        ConfigureDialog.resize(416, 298)
         self.gridLayout = QGridLayout(ConfigureDialog)
         self.gridLayout.setObjectName(u"gridLayout")
         self.configGroupBox = QGroupBox(ConfigureDialog)
         self.configGroupBox.setObjectName(u"configGroupBox")
         self.gridLayout_2 = QGridLayout(self.configGroupBox)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.label1 = QLabel(self.configGroupBox)
-        self.label1.setObjectName(u"label1")
-
-        self.gridLayout_2.addWidget(self.label1, 2, 0, 1, 1)
-
         self.label2 = QLabel(self.configGroupBox)
         self.label2.setObjectName(u"label2")
 
-        self.gridLayout_2.addWidget(self.label2, 1, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.label2, 2, 0, 1, 1)
+
+        self.label1 = QLabel(self.configGroupBox)
+        self.label1.setObjectName(u"label1")
+
+        self.gridLayout_2.addWidget(self.label1, 1, 0, 1, 1)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -96,9 +96,9 @@ class Ui_ConfigureDialog(object):
     def retranslateUi(self, ConfigureDialog):
         ConfigureDialog.setWindowTitle(QCoreApplication.translate("ConfigureDialog", u"Configure File Location Sink", None))
         self.configGroupBox.setTitle("")
-        self.label1.setText(QCoreApplication.translate("ConfigureDialog", u"Output directory:  ", None))
-        self.label2.setText(QCoreApplication.translate("ConfigureDialog", u"prefix", None))
-        self.label0.setText(QCoreApplication.translate("ConfigureDialog", u"identifier:  ", None))
+        self.label2.setText(QCoreApplication.translate("ConfigureDialog", u"output directory:", None))
+        self.label1.setText(QCoreApplication.translate("ConfigureDialog", u"prefix:", None))
+        self.label0.setText(QCoreApplication.translate("ConfigureDialog", u"identifier:", None))
         self.pushButtonFileChooser.setText(QCoreApplication.translate("ConfigureDialog", u"...", None))
     # retranslateUi
 
