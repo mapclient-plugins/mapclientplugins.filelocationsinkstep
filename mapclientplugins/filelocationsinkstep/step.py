@@ -1,14 +1,11 @@
-
 """
 MAP Client Plugin Step
 """
-import os
 import json
-import pathlib
+import os
 import shutil
 
 from PySide6 import QtGui
-
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.filelocationsinkstep.configuredialog import ConfigureDialog
 
@@ -34,7 +31,7 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
                        'http://physiomeproject.org/workflow/1.0/rdf-schema#file_location')
                       ])
         # Port data:
-        self._portData0 = None # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
+        self._portData0 = None
         # Config:
         self._config = {'identifier': ''}
 
@@ -52,7 +49,6 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
 
     def setPortData(self, index, dataIn):
         """
-        Add your code here that will set the appropriate objects for this step.
         The index is the index of the port in the port list.  If there is only one
         uses port for this step then the index can be ignored.
 
@@ -62,7 +58,6 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         if not isinstance(dataIn, list):
             dataIn = [dataIn]
 
-        # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
         self._portData0 = dataIn
 
     def configure(self):
