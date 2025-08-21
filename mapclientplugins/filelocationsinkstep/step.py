@@ -37,6 +37,9 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         # Config:
         self._config = {'identifier': ''}
 
+    def _prefix_filename(self, path, prefix):
+        return prefix + '_' + os.path.basename(path)
+
     def execute(self):
         """
         Add your code here that will kick off the execution of the step.
@@ -45,12 +48,11 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         """
         # Put your execute step code here before calling the '_doneExecution' method.
         #
-        abs_path = os.path.join(self._location, self._config['location'])
+
+        abs_path = os.path.join(self._location, self._config['directory'])
+        prefix = self._config['prefix'].strip()
         for p in self._portData0:
-            if self._config['prefix'].strip():
-                shutil.copy(p, os.path.join(abs_path, self._config['prefix'].strip() + '_' + os.path.basename(p)))
-            else:
-                shutil.copy(p, abs_path)
+            shutil.copy(p, os.path.join(abs_path, self._prefix_filename(p, prefix) if prefix else ''))
         self._doneExecution()
 
     def setPortData(self, index, dataIn):

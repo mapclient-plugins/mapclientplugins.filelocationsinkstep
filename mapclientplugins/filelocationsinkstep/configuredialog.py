@@ -44,7 +44,7 @@ class ConfigureDialog(QtWidgets.QDialog):
 
     def _make_connections(self):
         self._ui.lineEdit0.textChanged.connect(self.validate)
-        self._ui.pushButtonFileChooser.clicked.connect(self._file_chooser_clicked)
+        self._ui.pushButtonOutputDirectory.clicked.connect(self._file_chooser_clicked)
 
     def accept(self):
         """
@@ -63,7 +63,7 @@ class ConfigureDialog(QtWidgets.QDialog):
 
     def _output_location(self, location=None):
         if location is None:
-            display_path = self._ui.lineEditFileLocation.text()
+            display_path = self._ui.lineEditOutputDirectory.text()
         else:
             display_path = location
         if self._workflow_location and os.path.isabs(display_path):
@@ -89,7 +89,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         else:
             self._ui.lineEdit0.setStyleSheet(INVALID_STYLE_SHEET)
 
-        non_empty = len(self._ui.lineEditFileLocation.text())
+        non_empty = len(self._ui.lineEditOutputDirectory.text())
         dir_path = self._output_location()
         if self._workflow_location:
             dir_path = os.path.join(self._workflow_location, dir_path)
@@ -106,7 +106,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         """
         self._previousIdentifier = self._ui.lineEdit0.text()
         config = {'identifier': self._ui.lineEdit0.text(),
-                  'location': PureWindowsPath(self._output_location()).as_posix(),
+                  'directory': PureWindowsPath(self._output_location()).as_posix(),
                   'prefix': self._ui.lineEditPrefix.text()}
         if self._previousLocation:
             config['previous_location'] = os.path.relpath(self._previousLocation, self._workflow_location)
@@ -123,8 +123,8 @@ class ConfigureDialog(QtWidgets.QDialog):
         """
         self._previousIdentifier = config['identifier']
         self._ui.lineEdit0.setText(config['identifier'])
-        self._ui.lineEditPrefix.setText(config['prefix'])
-        self._ui.lineEditFileLocation.setText(str(PurePath(config.get('location', ''))))
+        self._ui.lineEditPrefix.setText(config.get('prefix', ''))
+        self._ui.lineEditOutputDirectory.setText(str(PurePath(config.get('directory', ''))))
         self._previousLocation = os.path.join(self._workflow_location, config.get('previous_location', ''))
 
     def _file_chooser_clicked(self):
@@ -134,4 +134,4 @@ class ConfigureDialog(QtWidgets.QDialog):
         if location:
             self._previousLocation = location
             display_location = self._output_location(location)
-            self._ui.lineEditFileLocation.setText(display_location)
+            self._ui.lineEditOutputDirectory.setText(display_location)

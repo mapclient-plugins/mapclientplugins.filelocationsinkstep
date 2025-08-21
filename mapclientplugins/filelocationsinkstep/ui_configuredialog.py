@@ -24,7 +24,7 @@ class Ui_ConfigureDialog(object):
     def setupUi(self, ConfigureDialog):
         if not ConfigureDialog.objectName():
             ConfigureDialog.setObjectName(u"ConfigureDialog")
-        ConfigureDialog.resize(416, 298)
+        ConfigureDialog.resize(412, 290)
         self.gridLayout = QGridLayout(ConfigureDialog)
         self.gridLayout.setObjectName(u"gridLayout")
         self.configGroupBox = QGroupBox(ConfigureDialog)
@@ -57,15 +57,15 @@ class Ui_ConfigureDialog(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.lineEditFileLocation = QLineEdit(self.configGroupBox)
-        self.lineEditFileLocation.setObjectName(u"lineEditFileLocation")
+        self.lineEditOutputDirectory = QLineEdit(self.configGroupBox)
+        self.lineEditOutputDirectory.setObjectName(u"lineEditOutputDirectory")
 
-        self.horizontalLayout.addWidget(self.lineEditFileLocation)
+        self.horizontalLayout.addWidget(self.lineEditOutputDirectory)
 
-        self.pushButtonFileChooser = QPushButton(self.configGroupBox)
-        self.pushButtonFileChooser.setObjectName(u"pushButtonFileChooser")
+        self.pushButtonOutputDirectory = QPushButton(self.configGroupBox)
+        self.pushButtonOutputDirectory.setObjectName(u"pushButtonOutputDirectory")
 
-        self.horizontalLayout.addWidget(self.pushButtonFileChooser)
+        self.horizontalLayout.addWidget(self.pushButtonOutputDirectory)
 
 
         self.gridLayout_2.addLayout(self.horizontalLayout, 2, 2, 1, 1)
@@ -96,9 +96,9 @@ class Ui_ConfigureDialog(object):
     def retranslateUi(self, ConfigureDialog):
         ConfigureDialog.setWindowTitle(QCoreApplication.translate("ConfigureDialog", u"Configure File Location Sink", None))
         self.configGroupBox.setTitle("")
-        self.label2.setText(QCoreApplication.translate("ConfigureDialog", u"output directory:", None))
-        self.label1.setText(QCoreApplication.translate("ConfigureDialog", u"prefix:", None))
-        self.label0.setText(QCoreApplication.translate("ConfigureDialog", u"identifier:", None))
-        self.pushButtonFileChooser.setText(QCoreApplication.translate("ConfigureDialog", u"...", None))
+        self.label2.setText(QCoreApplication.translate("ConfigureDialog", u"Output directory: ", None))
+        self.label1.setText(QCoreApplication.translate("ConfigureDialog", u"Prefix: ", None))
+        self.label0.setText(QCoreApplication.translate("ConfigureDialog", u"Identifier: ", None))
+        self.pushButtonOutputDirectory.setText(QCoreApplication.translate("ConfigureDialog", u"...", None))
     # retranslateUi
 
