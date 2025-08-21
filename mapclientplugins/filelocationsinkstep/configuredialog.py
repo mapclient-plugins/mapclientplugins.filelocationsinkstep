@@ -44,7 +44,7 @@ class ConfigureDialog(QtWidgets.QDialog):
 
     def _make_connections(self):
         self._ui.lineEdit0.textChanged.connect(self.validate)
-        self._ui.pushButtonOutputDirectory.clicked.connect(self._file_chooser_clicked)
+        self._ui.pushButtonOutputDirectory.clicked.connect(self._output_directory_clicked)
 
     def accept(self):
         """
@@ -127,7 +127,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         self._ui.lineEditOutputDirectory.setText(str(PurePath(config.get('directory', ''))))
         self._previousLocation = os.path.join(self._workflow_location, config.get('previous_location', ''))
 
-    def _file_chooser_clicked(self):
+    def _output_directory_clicked(self):
         # Second parameter returned is the filter chosen
         location = QtWidgets.QFileDialog.getExistingDirectory(self, 'Select Destination for File', self._previousLocation)
 
