@@ -62,10 +62,8 @@ class ConfigureDialog(QtWidgets.QDialog):
             QtWidgets.QDialog.accept(self)
 
     def _output_location(self, location=None):
-        if location is None:
-            display_path = self._ui.lineEditOutputDirectory.text()
-        else:
-            display_path = location
+        display_path = self._ui.lineEditOutputDirectory.text() if location is None else location
+
         if self._workflow_location and os.path.isabs(display_path):
             display_path = os.path.relpath(display_path, self._workflow_location)
 
@@ -84,10 +82,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         # The identifierOccursCount method is part of the interface to the workflow framework.
         value = self.identifierOccursCount(self._ui.lineEdit0.text())
         valid_id = (value == 0) or (value == 1 and self._previousIdentifier == self._ui.lineEdit0.text())
-        if valid_id:
-            self._ui.lineEdit0.setStyleSheet(DEFAULT_STYLE_SHEET)
-        else:
-            self._ui.lineEdit0.setStyleSheet(INVALID_STYLE_SHEET)
+        self._ui.lineEdit0.setStyleSheet(DEFAULT_STYLE_SHEET if valid_id else INVALID_STYLE_SHEET)
 
         non_empty = len(self._ui.lineEditOutputDirectory.text())
         dir_path = self._output_location()
@@ -95,6 +90,7 @@ class ConfigureDialog(QtWidgets.QDialog):
             dir_path = os.path.join(self._workflow_location, dir_path)
 
         valid_destination = non_empty and os.path.isdir(dir_path)
+        self._ui.lineEditOutputDirectory.setStyleSheet(DEFAULT_STYLE_SHEET if valid_destination else INVALID_STYLE_SHEET)
 
         return valid_id and valid_destination
 
@@ -105,8 +101,10 @@ class ConfigureDialog(QtWidgets.QDialog):
         identifier over the whole of the workflow.
         """
         self._previousIdentifier = self._ui.lineEdit0.text()
+        non_empty = len(self._ui.lineEditOutputDirectory.text())
+        directory_path = PureWindowsPath(self._output_location()).as_posix() if non_empty else ''
         config = {'identifier': self._ui.lineEdit0.text(),
-                  'directory': PureWindowsPath(self._output_location()).as_posix(),
+                  'directory': directory_path,
                   'prefix': self._ui.lineEditPrefix.text()}
         if self._previousLocation:
             config['previous_location'] = os.path.relpath(self._previousLocation, self._workflow_location)
@@ -124,7 +122,10 @@ class ConfigureDialog(QtWidgets.QDialog):
         self._previousIdentifier = config['identifier']
         self._ui.lineEdit0.setText(config['identifier'])
         self._ui.lineEditPrefix.setText(config.get('prefix', ''))
-        self._ui.lineEditOutputDirectory.setText(str(PurePath(config.get('directory', ''))))
+
+        non_empty = len(config.get('directory', ''))
+        directory_path = str(PurePath(config['directory'])) if non_empty else ''
+        self._ui.lineEditOutputDirectory.setText(directory_path)
         self._previousLocation = os.path.join(self._workflow_location, config.get('previous_location', ''))
 
     def _output_directory_clicked(self):
@@ -135,3 +136,4 @@ class ConfigureDialog(QtWidgets.QDialog):
             self._previousLocation = location
             display_location = self._output_location(location)
             self._ui.lineEditOutputDirectory.setText(display_location)
+            self.validate()
