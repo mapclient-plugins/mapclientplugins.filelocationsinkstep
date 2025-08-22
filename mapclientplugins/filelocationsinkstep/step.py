@@ -13,6 +13,10 @@ from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.filelocationsinkstep.configuredialog import ConfigureDialog
 
 
+def _prefix_filename(path, prefix):
+    return prefix + os.path.basename(path)
+
+
 class FileLocationSinkStep(WorkflowStepMountPoint):
     """
     Skeleton step which is intended to be a helpful starting point
@@ -44,10 +48,14 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         Make sure you call the _doneExecution() method when finished.  This method
         may be connected up to a button in a widget for example.
         """
-        # Put your execute step code here before calling the '_doneExecution' method.
-        abs_path = os.path.join(self._location, self._config['file'])
+        try:
+            abs_path = os.path.join(self._location, self._config['directory'])
+        except KeyError:
+            raise RuntimeError('Directory not set in configuration. Please configure the step first.')
+
+        prefix = self._config['prefix'].strip()
         for p in self._portData0:
-            shutil.copy(p, abs_path)
+            shutil.copy(p, os.path.join(abs_path, _prefix_filename(p, prefix) if prefix else ''))
         self._doneExecution()
 
     def setPortData(self, index, dataIn):
@@ -63,7 +71,10 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
             dataIn = [dataIn]
 
         # http://physiomeproject.org/workflow/1.0/rdf-schema#file_location
-        self._portData0 = dataIn
+        if index == 0:
+            self._portData0 = [pathlib.PureWindowsPath(p).as_posix() for p in dataIn]
+        else:
+            raise IndexError(f'Index {index} is out of range for this step.')
 
     def configure(self):
         """
@@ -119,5 +130,3 @@ class FileLocationSinkStep(WorkflowStepMountPoint):
         d.identifierOccursCount = self._identifierOccursCount
         d.setConfig(self._config)
         self._configured = d.validate()
-
-

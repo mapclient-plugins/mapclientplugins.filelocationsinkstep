@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'configuredialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.1
+## Created by: Qt User Interface Compiler version 6.8.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -24,54 +24,64 @@ class Ui_ConfigureDialog(object):
     def setupUi(self, ConfigureDialog):
         if not ConfigureDialog.objectName():
             ConfigureDialog.setObjectName(u"ConfigureDialog")
-        ConfigureDialog.resize(418, 303)
+        ConfigureDialog.resize(412, 290)
         self.gridLayout = QGridLayout(ConfigureDialog)
         self.gridLayout.setObjectName(u"gridLayout")
         self.configGroupBox = QGroupBox(ConfigureDialog)
         self.configGroupBox.setObjectName(u"configGroupBox")
         self.gridLayout_2 = QGridLayout(self.configGroupBox)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.label2 = QLabel(self.configGroupBox)
+        self.label2.setObjectName(u"label2")
+
+        self.gridLayout_2.addWidget(self.label2, 2, 0, 1, 1)
+
+        self.label1 = QLabel(self.configGroupBox)
+        self.label1.setObjectName(u"label1")
+
+        self.gridLayout_2.addWidget(self.label1, 1, 0, 1, 1)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_2.addItem(self.verticalSpacer, 3, 2, 1, 1)
+
+        self.lineEdit0 = QLineEdit(self.configGroupBox)
+        self.lineEdit0.setObjectName(u"lineEdit0")
+
+        self.gridLayout_2.addWidget(self.lineEdit0, 0, 2, 1, 1)
+
         self.label0 = QLabel(self.configGroupBox)
         self.label0.setObjectName(u"label0")
 
         self.gridLayout_2.addWidget(self.label0, 0, 0, 1, 1)
 
-        self.lineEdit0 = QLineEdit(self.configGroupBox)
-        self.lineEdit0.setObjectName(u"lineEdit0")
-
-        self.gridLayout_2.addWidget(self.lineEdit0, 0, 1, 1, 1)
-
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.lineEditFileLocation = QLineEdit(self.configGroupBox)
-        self.lineEditFileLocation.setObjectName(u"lineEditFileLocation")
+        self.lineEditOutputDirectory = QLineEdit(self.configGroupBox)
+        self.lineEditOutputDirectory.setObjectName(u"lineEditOutputDirectory")
 
-        self.horizontalLayout.addWidget(self.lineEditFileLocation)
+        self.horizontalLayout.addWidget(self.lineEditOutputDirectory)
 
-        self.pushButtonFileChooser = QPushButton(self.configGroupBox)
-        self.pushButtonFileChooser.setObjectName(u"pushButtonFileChooser")
+        self.pushButtonOutputDirectory = QPushButton(self.configGroupBox)
+        self.pushButtonOutputDirectory.setObjectName(u"pushButtonOutputDirectory")
 
-        self.horizontalLayout.addWidget(self.pushButtonFileChooser)
+        self.horizontalLayout.addWidget(self.pushButtonOutputDirectory)
 
 
-        self.gridLayout_2.addLayout(self.horizontalLayout, 2, 1, 1, 1)
+        self.gridLayout_2.addLayout(self.horizontalLayout, 2, 2, 1, 1)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.lineEditPrefix = QLineEdit(self.configGroupBox)
+        self.lineEditPrefix.setObjectName(u"lineEditPrefix")
 
-        self.gridLayout_2.addItem(self.verticalSpacer, 3, 1, 1, 1)
-
-        self.label1 = QLabel(self.configGroupBox)
-        self.label1.setObjectName(u"label1")
-
-        self.gridLayout_2.addWidget(self.label1, 2, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.lineEditPrefix, 1, 2, 1, 1)
 
 
         self.gridLayout.addWidget(self.configGroupBox, 0, 0, 1, 1)
 
         self.buttonBox = QDialogButtonBox(ConfigureDialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setOrientation(Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
+        self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
 
         self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
 
@@ -86,8 +96,9 @@ class Ui_ConfigureDialog(object):
     def retranslateUi(self, ConfigureDialog):
         ConfigureDialog.setWindowTitle(QCoreApplication.translate("ConfigureDialog", u"Configure File Location Sink", None))
         self.configGroupBox.setTitle("")
-        self.label0.setText(QCoreApplication.translate("ConfigureDialog", u"identifier:  ", None))
-        self.pushButtonFileChooser.setText(QCoreApplication.translate("ConfigureDialog", u"...", None))
-        self.label1.setText(QCoreApplication.translate("ConfigureDialog", u"Output directory:  ", None))
+        self.label2.setText(QCoreApplication.translate("ConfigureDialog", u"Output directory: ", None))
+        self.label1.setText(QCoreApplication.translate("ConfigureDialog", u"Prefix: ", None))
+        self.label0.setText(QCoreApplication.translate("ConfigureDialog", u"Identifier: ", None))
+        self.pushButtonOutputDirectory.setText(QCoreApplication.translate("ConfigureDialog", u"...", None))
     # retranslateUi
 
