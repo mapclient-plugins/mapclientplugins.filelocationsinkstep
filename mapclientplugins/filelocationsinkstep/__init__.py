@@ -3,7 +3,7 @@
 MAP Client Plugin
 """
 
-__version__ = '0.4.0'
+__version__ = '0.5.0'
 __author__ = 'Richard Christie'
 __stepname__ = 'File Location Sink'
 __location__ = 'https://github.com/mapclient-plugins/mapclientplugins.filelocationsinkstep'
